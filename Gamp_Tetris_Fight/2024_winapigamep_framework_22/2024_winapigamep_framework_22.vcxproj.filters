@@ -35,6 +35,9 @@
     <Filter Include="Engine\07. Module">
       <UniqueIdentifier>{ec499769-3097-4d06-8abb-b25ff4a1a933}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\03. Object\Block">
+      <UniqueIdentifier>{bddfaf40-cff2-48cc-b87d-e7ad572bd8ca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2024_winapigamep_framework_22.h">
@@ -127,6 +130,12 @@
     <ClInclude Include="Animation.h">
       <Filter>Engine\06. Component</Filter>
     </ClInclude>
+    <ClInclude Include="Block.h">
+      <Filter>Engine\03. Object\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="Block_I.h">
+      <Filter>Engine\03. Object\Block</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2024_winapigamep_framework_22.rc">
@@ -210,6 +219,12 @@
     </ClCompile>
     <ClCompile Include="Animation.cpp">
       <Filter>Engine\06. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Block.cpp">
+      <Filter>Engine\03. Object\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Block_I.cpp">
+      <Filter>Engine\03. Object\Block</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

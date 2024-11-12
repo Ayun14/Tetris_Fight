@@ -5,6 +5,7 @@ enum class LAYER
 	BACKGROUND,
 	PLAYER,
 	PROJECTILE,
+	BLOCK,
 	ENEMY,
 	// UI
 	END = 30
