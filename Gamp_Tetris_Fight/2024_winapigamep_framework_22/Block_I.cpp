@@ -10,8 +10,9 @@ Block_I::Block_I() :
 {
 	for (int i = 0; i < blockNum; ++i)
 	{
-		Block* block = new Block();
-		blockVec.push_back(*block);
+		Block* block = new Block(texturePath);
+		blockVec.push_back(block);
+		block->SetPos({ SCREEN_WIDTH / 2, 20 * i }); // 여기서 위치 조절해주면 됨
 		GET_SINGLE(SceneManager)->GetCurrentScene()->AddObject(block, LAYER::BLOCK);
 	}
 }

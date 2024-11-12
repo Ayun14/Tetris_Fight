@@ -4,11 +4,11 @@
 #include "ResourceManager.h"
 #include "Collider.h"
 
-Block::Block() :
+Block::Block(wstring path) :
 	m_vDir(1.f, 1.f),
 	m_pTex(nullptr)
 {
-	//m_pTex = GET_SINGLE(ResourceManager)->TextureLoad(L"Bullet", L"Texture\\Bullet.bmp");
+	m_pTex = GET_SINGLE(ResourceManager)->TextureLoad(L"Bullet", path);
 	this->AddComponent<Collider>();
 	GetComponent<Collider>()->SetSize({ 20.f,20.f });
 }

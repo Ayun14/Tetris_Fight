@@ -22,10 +22,10 @@ public:
 private:
     // Block Spawn
     int blockNum;
-    wstring texturePath = L"Texture\\어쩌구.bmp";
+    wstring texturePath = L"Texture\\Bullet.bmp";
 
 	bool isBuilt; // 블럭이 바닥에 쌓였는지 체크
-	vector<Block> blockVec;
+	vector<Block*> blockVec;
 
 	Vec2 m_vDir;
 
