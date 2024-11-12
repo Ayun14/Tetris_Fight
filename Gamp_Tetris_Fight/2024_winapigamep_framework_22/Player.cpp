@@ -10,6 +10,7 @@
 #include "Collider.h"
 #include "Animator.h"
 #include "Animation.h"
+#include "CameraComponent.h"
 Player::Player()
 	: m_pTex(nullptr)
 {
@@ -24,6 +25,8 @@ Player::Player()
 	GetComponent<Animator>()->CreateAnimation(L"JiwooFront", m_pTex, Vec2(0.f, 150.f),
 		Vec2(50.f, 50.f), Vec2(50.f, 0.f), 5, 0.1f);
 	GetComponent<Animator>()->PlayAnimation(L"JiwooFront", true);
+	
+	this->AddComponent<CameraComponent>();
 
 }
 Player::~Player()
@@ -35,6 +38,9 @@ void Player::Update()
 {
 	Vec2 vPos = GetPos();
 	//if(GET_KEY(KEY_TYPE::LEFT))
+	if (GET_KEY(KEY_TYPE::SPACE))
+	GetComponent<CameraComponent>()->ShakeCamera();
+
 	if (GET_KEY(KEY_TYPE::A))
 		vPos.x -= 100.f * fDT;
 	if (GET_KEY(KEY_TYPE::D))
