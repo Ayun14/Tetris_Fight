@@ -11,6 +11,7 @@
 #include "Animator.h"
 #include "Animation.h"
 #include "CameraComponent.h"
+
 Player::Player()
 	: m_pTex(nullptr)
 {
@@ -21,9 +22,9 @@ Player::Player()
 	//m_pTex = GET_SINGLE(ResourceManager)->TextureLoad(L"Player", L"Texture\\planem.bmp");
 	m_pTex = GET_SINGLE(ResourceManager)->TextureLoad(L"Jiwoo", L"Texture\\jiwoo.bmp");
 	this->AddComponent<Collider>();
+
 	AddComponent<Animator>();
-	GetComponent<Animator>()->CreateAnimation(L"JiwooFront", m_pTex, Vec2(0.f, 150.f),
-		Vec2(50.f, 50.f), Vec2(50.f, 0.f), 5, 0.1f);
+	GetComponent<Animator>()->CreateAnimation(L"JiwooFront", m_pTex, Vec2(0.f, 150.f), Vec2(50.f, 50.f), Vec2(50.f, 0.f), 5, 0.1f);
 	GetComponent<Animator>()->PlayAnimation(L"JiwooFront", true);
 	
 	this->AddComponent<CameraComponent>();
@@ -37,27 +38,32 @@ Player::~Player()
 void Player::Update()
 {
 	Vec2 vPos = GetPos();
-	//if(GET_KEY(KEY_TYPE::LEFT))
-	if (GET_KEY(KEY_TYPE::SPACE))
-	GetComponent<CameraComponent>()->ShakeCamera();
 
-	if (GET_KEY(KEY_TYPE::A))
-		vPos.x -= 100.f * fDT;
-	if (GET_KEY(KEY_TYPE::D))
-		vPos.x += 100.f * fDT;
-	if (GET_KEYDOWN(KEY_TYPE::SPACE))
+	if (GET_KEYDOWN(KEY_TYPE::Q))
 		CreateProjectile();
+	if (GET_KEY(KEY_TYPE::SPACE)) {
+		CameraComponent* cam = GetComponent<CameraComponent>();
+		if (cam != nullptr) {
+			cam->ShakeCamera();
+		}
+	}
+
+	if (GET_KEY(m_leftMoveKey))
+		vPos.x -= 100.f * fDT;
+	if (GET_KEY(m_rightMoveKey))
+		vPos.x += 100.f * fDT;
 	SetPos(vPos);
 }
 
 void Player::Render(HDC _hdc)
 {
-	Vec2 vPos = GetPos();
-	Vec2 vSize = GetSize();
+	ComponentRender(_hdc);
+	//Vec2 vPos = GetPos();
+	//Vec2 vSize = GetSize();
 	//RECT_RENDER(_hdc, vPos.x, vPos.y
 	//	, vSize.x, vSize.y);
-	int width = m_pTex->GetWidth();
-	int height = m_pTex->GetHeight();
+	//int width = m_pTex->GetWidth();
+	//int height = m_pTex->GetHeight();
 	//::BitBlt(_hdc
 	//	, (int)(vPos.x - vSize.x / 2)
 	//	, (int)(vPos.y - vSize.y / 2)
@@ -71,11 +77,11 @@ void Player::Render(HDC _hdc)
 		, width, height,
 		m_pTex->GetTexDC()
 		, 0, 0,width, height, RGB(255,0,255));*/
-	ComponentRender(_hdc);
 	//::StretchBlt();
 	//::AlphaBlend();
 	//::PlgBlt();
 }
+
 
 void Player::CreateProjectile()
 {
