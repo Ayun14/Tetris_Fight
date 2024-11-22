@@ -136,6 +136,12 @@
     <ClInclude Include="Block_I.h">
       <Filter>Engine\03. Object\Block</Filter>
     </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Engine\06. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraComponent.h">
+      <Filter>Engine\06. Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2024_winapigamep_framework_22.rc">
@@ -225,6 +231,12 @@
     </ClCompile>
     <ClCompile Include="Block_I.cpp">
       <Filter>Engine\03. Object\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Engine\06. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraComponent.cpp">
+      <Filter>Engine\06. Component</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

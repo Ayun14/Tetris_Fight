@@ -4,6 +4,8 @@
 #include "Object.h"
 #include "Texture.h"
 #include "TimeManager.h"
+#include "Camera.h"
+
 Animation::Animation()
 	: m_pAnimator(nullptr)
 	, m_CurFrame(0)
@@ -11,7 +13,6 @@ Animation::Animation()
 	, m_fAccTime(0.f)
 {
 }
-
 Animation::~Animation()
 {
 }
@@ -45,12 +46,16 @@ void Animation::Render(HDC _hdc)
 {
 	Object* pObj = m_pAnimator->GetOwner();
 	Vec2 vPos = pObj->GetPos();
+	Vec2 camerapos = GET_SINGLE(Camera)->GetCameraPos();
 
 	// 오프셋 적용
 	vPos = vPos + m_vecAnimFrame[m_CurFrame].vOffset;
+
 	TransparentBlt(_hdc
-		, (int)(vPos.x - m_vecAnimFrame[m_CurFrame].vSlice.x / 2.f)
-		, (int)(vPos.y - m_vecAnimFrame[m_CurFrame].vSlice.y / 2.f)
+		//, (int)(vPos.x - m_vecAnimFrame[m_CurFrame].vSlice.x / 2)
+		//, (int)(vPos.y - m_vecAnimFrame[m_CurFrame].vSlice.y / 2)
+		, (int)(vPos.x - m_vecAnimFrame[m_CurFrame].vSlice.x / 2 - ((int)camerapos.x))
+		, (int)(vPos.y - m_vecAnimFrame[m_CurFrame].vSlice.y / 2 - ((int)camerapos.y))
 		, (int)(m_vecAnimFrame[m_CurFrame].vSlice.x)
 		, (int)(m_vecAnimFrame[m_CurFrame].vSlice.y)
 		, m_pTex->GetTexDC()

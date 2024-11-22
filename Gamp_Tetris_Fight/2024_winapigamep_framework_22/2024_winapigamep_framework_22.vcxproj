@@ -169,6 +169,8 @@
     <ClInclude Include="BaseWindow.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="Block_I.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="Component.h" />
@@ -202,6 +204,8 @@
     <ClCompile Include="BaseWindow.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="Block_I.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Component.cpp" />

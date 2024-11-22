@@ -2,6 +2,8 @@
 #include "Collider.h"
 #include "Object.h"
 #include "GDISelector.h"
+#include "Camera.h"
+
 UINT Collider::m_sNextID = 0;
 Collider::Collider()
 	: m_vSize(30.f, 30.f)
@@ -28,7 +30,9 @@ void Collider::Render(HDC _hdc)
 		ePen = PEN_TYPE::RED;
 	GDISelector pen(_hdc, ePen);
 	GDISelector brush(_hdc, BRUSH_TYPE::HOLLOW);
-	RECT_RENDER(_hdc, m_vLatePos.x, m_vLatePos.y,
+	Vec2 camerapos = GET_SINGLE(Camera)->GetCameraPos();
+
+	RECT_RENDER(_hdc, m_vLatePos.x - ((int)camerapos.x), m_vLatePos.y - ((int)camerapos.y),
 		m_vSize.x, m_vSize.y);
 }
 
