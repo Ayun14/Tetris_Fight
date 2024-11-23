@@ -38,11 +38,6 @@ void Block::Render(HDC _hdc)
 
 void Block::EnterCollision(Collider* _other)
 {
-	Object* pOtherObj = _other->GetOwner();
-	if (pOtherObj->GetName() == L"위에 있는 상대")
-	{
-		// 상대에게 데미지
-	}
 }
 
 void Block::StayCollision(Collider* _other)

@@ -19,4 +19,3 @@ private:
 	UINT		  m_framecnt = 0;
 	float		  m_frametime = 0.f;
 };
-

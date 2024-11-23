@@ -31,3 +31,11 @@ enum class EVENT_TYPE
 	SCENE_CHANGE,
 	END,
 };
+
+
+enum class BLOCK_TYPE
+{
+	BLOCK_I, BLOCK_J, BLOCK_L,
+	BLOCK_O, BLOCK_S, BLOCK_Z,
+	BLOCK_T
+};	

@@ -28,6 +28,4 @@ void TitleScene::Init()
 void TitleScene::Update()
 {
 	Scene::Update();
-	if (GET_KEYDOWN(KEY_TYPE::ENTER))
-		GET_SINGLE(SceneManager)->LoadScene(L"GameScene");
 }

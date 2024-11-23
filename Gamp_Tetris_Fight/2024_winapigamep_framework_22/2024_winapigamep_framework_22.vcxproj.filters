@@ -136,6 +136,30 @@
     <ClInclude Include="Block_I.h">
       <Filter>Engine\03. Object\Block</Filter>
     </ClInclude>
+    <ClInclude Include="Block_J.h">
+      <Filter>Engine\03. Object\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="Block_L.h">
+      <Filter>Engine\03. Object\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="Block_O.h">
+      <Filter>Engine\03. Object\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="Block_S.h">
+      <Filter>Engine\03. Object\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="Block_T.h">
+      <Filter>Engine\03. Object\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="Block_Z.h">
+      <Filter>Engine\03. Object\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="Board.h">
+      <Filter>Engine\03. Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Block_Parent.h">
+      <Filter>Engine\03. Object\Block</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2024_winapigamep_framework_22.rc">
@@ -224,6 +248,30 @@
       <Filter>Engine\03. Object\Block</Filter>
     </ClCompile>
     <ClCompile Include="Block_I.cpp">
+      <Filter>Engine\03. Object\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Block_J.cpp">
+      <Filter>Engine\03. Object\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Block_L.cpp">
+      <Filter>Engine\03. Object\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Block_O.cpp">
+      <Filter>Engine\03. Object\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Block_S.cpp">
+      <Filter>Engine\03. Object\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Block_T.cpp">
+      <Filter>Engine\03. Object\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Block_Z.cpp">
+      <Filter>Engine\03. Object\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Board.cpp">
+      <Filter>Engine\03. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Block_Parent.cpp">
       <Filter>Engine\03. Object\Block</Filter>
     </ClCompile>
   </ItemGroup>
