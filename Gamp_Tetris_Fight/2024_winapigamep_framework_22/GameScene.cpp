@@ -20,7 +20,7 @@ void GameScene::Init()
 		oPlayer1->SetSize({ 100.f,100.f });
 
 		Player* pPlayer1 = static_cast<Player*>(oPlayer1);
-		pPlayer1->SetKey(KEY_TYPE::A, KEY_TYPE::D);
+		pPlayer1->SetKey(KEY_TYPE::A, KEY_TYPE::D); // 이동 방향 설정
 
 		AddObject(oPlayer1, LAYER::PLAYER);
 	}
@@ -30,7 +30,7 @@ void GameScene::Init()
 		oPlayer2->SetSize({ 100.f,100.f });
 
 		Player* pPlayer2 = static_cast<Player*>(oPlayer2);
-		pPlayer2->SetKey(KEY_TYPE::LEFT, KEY_TYPE::RIGHT);
+		pPlayer2->SetKey(KEY_TYPE::LEFT, KEY_TYPE::RIGHT); // 이동 방향 설정
 
 		AddObject(oPlayer2, LAYER::PLAYER);
 	}

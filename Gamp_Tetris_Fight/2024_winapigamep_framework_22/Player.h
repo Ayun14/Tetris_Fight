@@ -3,6 +3,7 @@
 #include "InputManager.h"
 
 class Texture;
+
 class Player : public Object
 {
 public:
@@ -15,9 +16,13 @@ public:
 		m_leftMoveKey = _leftKey;
 		m_rightMoveKey = _rightKey;
 	}
+protected:
+	bool CanUseSkill();
+	void UseSkill();
 private:
-	void CreateProjectile();
+	//void CreateProjectile();
 	Texture* m_pTex;
+protected:
 	KEY_TYPE m_leftMoveKey;
 	KEY_TYPE m_rightMoveKey;
 };

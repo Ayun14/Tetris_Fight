@@ -2,18 +2,18 @@
 #include "Player.h"
 #include "TimeManager.h"
 #include "InputManager.h"
-#include "Projectile.h"
-#include "SceneManager.h"
-#include "Scene.h"
-#include "Texture.h"
+//#include "Projectile.h"
+//#include "SceneManager.h"
+//#include "Scene.h"
+//#include "Texture.h"
 #include "ResourceManager.h"
 #include "Collider.h"
 #include "Animator.h"
-#include "Animation.h"
-#include "CameraComponent.h"
+//#include "Animation.h"
+//#include "CameraComponent.h"
 
 Player::Player()
-	: m_pTex(nullptr)
+	: m_pTex(nullptr), m_leftMoveKey(KEY_TYPE::A), m_rightMoveKey(KEY_TYPE::D)
 {
 	//m_pTex = new Texture;
 	//wstring path = GET_SINGLE(ResourceManager)->GetResPath();
@@ -27,7 +27,6 @@ Player::Player()
 	GetComponent<Animator>()->CreateAnimation(L"JiwooFront", m_pTex, Vec2(0.f, 150.f), Vec2(50.f, 50.f), Vec2(50.f, 0.f), 5, 0.1f);
 	GetComponent<Animator>()->PlayAnimation(L"JiwooFront", true);
 	
-	this->AddComponent<CameraComponent>();
 
 }
 Player::~Player()
@@ -38,6 +37,13 @@ Player::~Player()
 void Player::Update()
 {
 	Vec2 vPos = GetPos();
+
+	if (GET_KEY(m_leftMoveKey))
+		vPos.x -= 100.f * fDT;
+	if (GET_KEY(m_rightMoveKey))
+		vPos.x += 100.f * fDT;
+	SetPos(vPos);
+	/*Vec2 vPos = GetPos();
 
 	if (GET_KEYDOWN(KEY_TYPE::Q))
 		CreateProjectile();
@@ -52,7 +58,7 @@ void Player::Update()
 		vPos.x -= 100.f * fDT;
 	if (GET_KEY(m_rightMoveKey))
 		vPos.x += 100.f * fDT;
-	SetPos(vPos);
+	SetPos(vPos);*/
 }
 
 void Player::Render(HDC _hdc)
@@ -82,24 +88,33 @@ void Player::Render(HDC _hdc)
 	//::PlgBlt();
 }
 
-
-void Player::CreateProjectile()
+bool Player::CanUseSkill()
 {
-	Projectile* pProj = new Projectile;
-	Vec2 vPos = GetPos();
-	vPos.y -= GetSize().y / 2.f;
-	pProj->SetPos(vPos);
-	pProj->SetSize({30.f,30.f});
-	// 도 -> 라디안: PI / 180
-	//pProj->SetAngle(PI / 4 * 7.f); // 1
-	//static float angle = 0.f;
-	//pProj->SetAngle(angle * PI / 180); // 2
-	//angle += 10.f;
-	pProj->SetDir({0.f, -1.f});
-	pProj->SetName(L"PlayerBullet");
-	//Vec2 a = { 10.f, 10.f };
-	//Vec2 b = { 0.f, 0.f };
-	//Vec2 c = a / b;
-
-	GET_SINGLE(SceneManager)->GetCurrentScene()->AddObject(pProj, LAYER::PROJECTILE);
+	return false;
 }
+
+void Player::UseSkill()
+{
+}
+
+
+//void Player::CreateProjectile()
+//{
+//	Projectile* pProj = new Projectile;
+//	Vec2 vPos = GetPos();
+//	vPos.y -= GetSize().y / 2.f;
+//	pProj->SetPos(vPos);
+//	pProj->SetSize({30.f,30.f});
+//	// 도 -> 라디안: PI / 180
+//	//pProj->SetAngle(PI / 4 * 7.f); // 1
+//	//static float angle = 0.f;
+//	//pProj->SetAngle(angle * PI / 180); // 2
+//	//angle += 10.f;
+//	pProj->SetDir({0.f, -1.f});
+//	pProj->SetName(L"PlayerBullet");
+//	//Vec2 a = { 10.f, 10.f };
+//	//Vec2 b = { 0.f, 0.f };
+//	//Vec2 c = a / b;
+//
+//	GET_SINGLE(SceneManager)->GetCurrentScene()->AddObject(pProj, LAYER::PROJECTILE);
+//}
