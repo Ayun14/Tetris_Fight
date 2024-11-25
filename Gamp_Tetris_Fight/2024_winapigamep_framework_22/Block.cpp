@@ -3,14 +3,15 @@
 #include "Texture.h"
 #include "ResourceManager.h"
 #include "Collider.h"
+#include <format>
 
 Block::Block(wstring path) :
 	m_vDir(1.f, 1.f),
 	m_pTex(nullptr)
 {
-	m_pTex = GET_SINGLE(ResourceManager)->TextureLoad(L"Bullet", path);
+	m_pTex = GET_SINGLE(ResourceManager)->TextureLoad(std::format(L"{}Block", path), path);
 	this->AddComponent<Collider>();
-	GetComponent<Collider>()->SetSize({ 20.f,20.f });
+	GetComponent<Collider>()->SetSize({ BLOCK_SIZE, BLOCK_SIZE });
 }
 
 Block::~Block() {}

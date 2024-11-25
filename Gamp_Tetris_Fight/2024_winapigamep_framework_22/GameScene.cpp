@@ -11,10 +11,12 @@
 
 void GameScene::Init()
 {
-	Object* obj = new Block_Z;
-	obj->SetPos({ SCREEN_WIDTH / 2,
+	Board* board = new Board;
+	board->SetPos({ SCREEN_WIDTH / 2,
 			SCREEN_HEIGHT /2});
-	AddObject(obj, LAYER::BACKGROUND);
+	board->SetSize({ 400.f, 800.f });
+	AddObject(board, LAYER::BACKGROUND);
+	board->CreateBlock();
 }
 
 void GameScene::Update()

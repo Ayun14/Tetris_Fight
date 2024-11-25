@@ -35,7 +35,9 @@ enum class EVENT_TYPE
 
 enum class BLOCK_TYPE
 {
-	BLOCK_I, BLOCK_J, BLOCK_L,
+	BLOCK_I = 0, BLOCK_J, BLOCK_L,
 	BLOCK_O, BLOCK_S, BLOCK_Z,
-	BLOCK_T
+	BLOCK_T,
+
+	NONE = 30
 };	

@@ -1,19 +1,23 @@
 #pragma once
-#include "Object.h"
+#include "Block_Parent.h"
 #include "Block.h"
 
 class Block_I :
-    public Object
+    public Block_Parent
 {
 public:
 	Block_I();
 	~Block_I(); 
     void Update() override;
     void Render(HDC _hdc) override;
-    void Rotate();
 
-    void MoveDown();
-    bool CheckCollision(const std::vector<Vec2>& positions);
+    void Rotate() override;
+    void MoveDown() override;
+    void MoveSide(bool isLeft) override;
+
+    // override
+    bool CheckCollision(const std::vector<Vec2>& positions) override;
+    const std::vector<Block*>& GetBlocks() override;
 private:
     void SetBlockPosition();
 public:
@@ -29,17 +33,9 @@ public:
 private:
     // Block Spawn
     int blockNum;
-    wstring texturePath = L"Texture\\Bullet.bmp";
+    wstring texturePath = L"Texture\\GreenBlock.bmp";
 
-    // Block Down
-    int moveDownTimer = 0;
-    const int moveDownInterval = 1000;
-
-    bool isWaiting; // 블럭이 대기 상태인지
-    bool isBuilt; // 블럭이 바닥에 쌓였는지
     vector<Block*> blockVec;
-
-    Vec2 position;
     Vec2 m_vDir;
 
     int rotationIndex; // 현재 회전 상태를 나타내는 인덱스
