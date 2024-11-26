@@ -5,7 +5,7 @@ class Block :
     public Object
 {
 public:
-	Block();
+	Block(wstring path);
 	~Block();
 	void Update() override;
 	void Render(HDC _hdc) override;

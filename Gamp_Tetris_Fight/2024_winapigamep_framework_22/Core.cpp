@@ -8,6 +8,8 @@
 #include "EventManager.h"
 bool Core::Init(HWND _hwnd)
 {
+	srand(static_cast<unsigned int>(time(0))); // 시드값 변경
+
 	// 변수 초기화
 	m_hWnd = _hwnd;
 	m_hDC = ::GetDC(m_hWnd);

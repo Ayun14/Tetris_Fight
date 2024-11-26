@@ -3,14 +3,15 @@
 #include "Texture.h"
 #include "ResourceManager.h"
 #include "Collider.h"
+#include <format>
 
-Block::Block() :
+Block::Block(wstring path) :
 	m_vDir(1.f, 1.f),
 	m_pTex(nullptr)
 {
-	//m_pTex = GET_SINGLE(ResourceManager)->TextureLoad(L"Bullet", L"Texture\\Bullet.bmp");
+	m_pTex = GET_SINGLE(ResourceManager)->TextureLoad(std::format(L"{}Block", path), path);
 	this->AddComponent<Collider>();
-	GetComponent<Collider>()->SetSize({ 20.f,20.f });
+	GetComponent<Collider>()->SetSize({ BLOCK_SIZE, BLOCK_SIZE });
 }
 
 Block::~Block() {}
@@ -38,11 +39,6 @@ void Block::Render(HDC _hdc)
 
 void Block::EnterCollision(Collider* _other)
 {
-	Object* pOtherObj = _other->GetOwner();
-	if (pOtherObj->GetName() == L"위에 있는 상대")
-	{
-		// 상대에게 데미지
-	}
 }
 
 void Block::StayCollision(Collider* _other)

@@ -1,13 +1,12 @@
 #pragma once
 #include "Block_Parent.h"
 #include "Block.h"
-
-class Block_I :
+class Block_J :
     public Block_Parent
 {
 public:
-	Block_I();
-	~Block_I(); 
+    Block_J();
+    ~Block_J(); 
     void Update() override;
     void Render(HDC _hdc) override;
 
@@ -33,34 +32,37 @@ public:
 private:
     // Block Spawn
     int blockNum;
-    wstring texturePath = L"Texture\\GreenBlock.bmp";
+    wstring texturePath = L"Texture\\BlueBlock.bmp";
 
     vector<Block*> blockVec;
     Vec2 m_vDir;
 
     int rotationIndex; // 현재 회전 상태를 나타내는 인덱스
-    int Rotation[4][3][3] = 
+    int Rotation[4][3][3] =
     {
         {
+            {1, 0, 0},
+            {1, 1, 1},
+            {0, 0, 0}
+        },
+
+        {
+            {0, 1, 1},
+            {0, 1, 0},
+            {0, 1, 0}
+        },
+
+        {
             {0, 0, 0},
             {1, 1, 1},
-            {0, 0, 0},
+            {0, 0, 1}
         },
+
         {
             {0, 1, 0},
             {0, 1, 0},
-            {0, 1, 0},
-        },
-        {
-            {0, 0, 0},
-            {1, 1, 1},
-            {0, 0, 0},
-        },
-        {
-            {0, 1, 0},
-            {0, 1, 0},
-            {0, 1, 0},
-        },
+            {1, 1, 0}
+        }
     };
 };
 

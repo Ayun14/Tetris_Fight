@@ -1,14 +1,14 @@
-ï»¿#include "pch.h"
-#include "Block_I.h"
+#include "pch.h"
+#include "Block_S.h"
 #include "SceneManager.h"
 #include "Scene.h"
 #include "InputManager.h"
 #include "Collider.h"
 
-Block_I::Block_I() :
-    blockNum(3),
-    m_vDir(1.f, 1.f),
-    rotationIndex(0)
+Block_S::Block_S() :
+	blockNum(4),
+	m_vDir(1.f, 1.f),
+	rotationIndex(0)
 {
 	for (int i = 0; i < blockNum; ++i)
 	{
@@ -18,25 +18,26 @@ Block_I::Block_I() :
 	}
 }
 
-Block_I::~Block_I() 
+Block_S::~Block_S()
 {
 }
 
-void Block_I::Update()
+void Block_S::Update()
 {
 }
 
-void Block_I::Render(HDC _hdc)
+void Block_S::Render(HDC _hdc)
 {
 }
 
-void Block_I::Rotate()
+void Block_S::Rotate()
 {
-	// ë‹¤ìŒ íšŒì „ ìƒíƒœë¡œ ë³€ê²½
+	// ´ÙÀ½ È¸Àü »óÅÂ·Î º¯°æ
 	rotationIndex = (rotationIndex + 1) % 4;
 
-	blockVec[1]->SetPos(GetPos());
-	Vec2 centerPos = blockVec[1]->GetPos();
+	int centerIndex = rotationIndex == 1 || rotationIndex == 2 ? 1 : 2;
+	blockVec[centerIndex]->SetPos(GetPos());
+	Vec2 centerPos = blockVec[centerIndex]->GetPos();
 
 	int index = 0;
 	for (int y = 0; y < 3; ++y)
@@ -46,7 +47,7 @@ void Block_I::Rotate()
 			if (Rotation[rotationIndex][y][x] == 1)
 			{
 				Vec2 newPos = centerPos;
-				newPos.x += (x - 1) * BLOCK_SIZE;
+				newPos.x += (x - 1) * BLOCK_SIZE; // ºí·Ï Å©±â¿¡ ¸ÂÃç Á¶Á¤
 				newPos.y += (y - 1) * BLOCK_SIZE;
 				blockVec[index++]->SetPos(newPos);
 			}
@@ -54,20 +55,23 @@ void Block_I::Rotate()
 	}
 }
 
-void Block_I::MoveDown()
+void Block_S::MoveDown()
 {
+	int centerIndex = rotationIndex == 1 || rotationIndex == 2 ? 1 : 2;
 	for (int i = 0; i < blockNum; ++i)
 	{
 		Vec2 pos = blockVec[i]->GetPos();
-		pos.y += BLOCK_SIZE; // í•œ ì¹¸ ì•„ëž˜ë¡œ ì´ë™
+		pos.y += BLOCK_SIZE; // ÇÑ Ä­ ¾Æ·¡·Î ÀÌµ¿
 		blockVec[i]->SetPos(pos);
 
-		if (i == 1) SetPos(blockVec[i]->GetPos());
+		if (i == centerIndex) SetPos(blockVec[i]->GetPos());
 	}
 }
 
-void Block_I::MoveSide(bool isLeft)
+void Block_S::MoveSide(bool isLeft)
 {
+	int centerIndex = rotationIndex == 1 || rotationIndex == 2 ? 1 : 2;
+
 	for (int i = 0; i < blockNum; ++i)
 	{
 		Vec2 pos = blockVec[i]->GetPos();
@@ -75,22 +79,22 @@ void Block_I::MoveSide(bool isLeft)
 		pos.x += moveValue;
 		blockVec[i]->SetPos(pos);
 
-		if (i == 1) SetPos(blockVec[i]->GetPos());
+		if (i == centerIndex) SetPos(blockVec[i]->GetPos());
 	}
 }
 
-bool Block_I::CheckCollision(const std::vector<Vec2>& positions)
+bool Block_S::CheckCollision(const std::vector<Vec2>& positions)
 {
-    return false;
+	return false;
 }
 
-const std::vector<Block*>& Block_I::GetBlocks() { return blockVec; }
+const std::vector<Block*>& Block_S::GetBlocks() { return blockVec; }
 
-void Block_I::SetBlockPosition()
+void Block_S::SetBlockPosition()
 {
 	int index = 0;
 	Vec2 pos = GetPos();
-	blockVec[1]->SetPos(GetPos());
+	blockVec[2]->SetPos(GetPos());
 	for (int y = 0; y < 3; ++y)
 	{
 		for (int x = 0; x < 3; ++x)
@@ -106,14 +110,14 @@ void Block_I::SetBlockPosition()
 	}
 }
 
-void Block_I::EnterCollision(Collider* _other)
+void Block_S::EnterCollision(Collider* _other)
 {
 }
 
-void Block_I::StayCollision(Collider* _other)
+void Block_S::StayCollision(Collider* _other)
 {
 }
 
-void Block_I::ExitCollision(Collider* _other)
+void Block_S::ExitCollision(Collider* _other)
 {
 }

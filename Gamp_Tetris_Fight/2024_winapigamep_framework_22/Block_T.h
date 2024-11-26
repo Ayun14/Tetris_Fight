@@ -1,13 +1,12 @@
 #pragma once
 #include "Block_Parent.h"
 #include "Block.h"
-
-class Block_I :
+class Block_T :
     public Block_Parent
 {
 public:
-	Block_I();
-	~Block_I(); 
+    Block_T();
+    ~Block_T();
     void Update() override;
     void Render(HDC _hdc) override;
 
@@ -18,8 +17,7 @@ public:
     // override
     bool CheckCollision(const std::vector<Vec2>& positions) override;
     const std::vector<Block*>& GetBlocks() override;
-private:
-    void SetBlockPosition();
+    void SetBlockPosition() override;
 public:
     void SetDir(Vec2 _dir)
     {
@@ -33,35 +31,37 @@ public:
 private:
     // Block Spawn
     int blockNum;
-    wstring texturePath = L"Texture\\GreenBlock.bmp";
+    wstring texturePath = L"Texture\\PurpleBlock.bmp";
 
     vector<Block*> blockVec;
     Vec2 m_vDir;
 
     int rotationIndex; // 현재 회전 상태를 나타내는 인덱스
-    int Rotation[4][3][3] = 
+    int Rotation[4][3][3] =
     {
         {
+            {0, 1, 0},
+            {1, 1, 1},
+            {0, 0, 0}
+        },
+
+        {
+            {0, 1, 0},
+            {0, 1, 1},
+            {0, 1, 0}
+        },
+
+        {
             {0, 0, 0},
             {1, 1, 1},
-            {0, 0, 0},
+            {0, 1, 0}
         },
+
         {
             {0, 1, 0},
-            {0, 1, 0},
-            {0, 1, 0},
-        },
-        {
-            {0, 0, 0},
-            {1, 1, 1},
-            {0, 0, 0},
-        },
-        {
-            {0, 1, 0},
-            {0, 1, 0},
-            {0, 1, 0},
-        },
+            {1, 1, 0},
+            {0, 1, 0}
+        }
     };
 };
-
 
