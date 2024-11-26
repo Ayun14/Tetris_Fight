@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "Board.h"
 #include "ResourceManager.h"
+#include "EventManager.h"
 #include "InputManager.h"
 #include "SceneManager.h"
-
 #include "Block.h"
 #include "Block_Parent.h"
 #include "Texture.h"
@@ -15,19 +15,20 @@
 #include "Block_S.h"
 #include "Block_T.h"
 #include "Block_Z.h"
-#include <cstdlib>
+#include "Block_Ghost.h"
 
 Board::Board() :
-    boardWidth(10), boardHeight(20),
+    boardWidth(10), boardHeight(20), isSkill(false),
     currentBlock(nullptr), nextBlock(BLOCK_TYPE::NONE)
 {
     m_pTex = GET_SINGLE(ResourceManager)->TextureLoad(L"Board", L"Texture\\gamp-background.bmp");
     boardVec.resize(boardHeight, std::vector<Block*>(boardWidth));
+    
+    ghostBlock = new Block_Ghost();
+    GET_SINGLE(SceneManager)->GetCurrentScene()->AddObject(ghostBlock, LAYER::BLOCK);
 }
 
-Board::~Board()
-{
-}
+Board::~Board() {}
 
 void Board::Render(HDC _hdc)
 {
@@ -48,42 +49,72 @@ void Board::Update()
 #pragma region BlockMove
     if (currentBlock)
     {
+        if (!isSkill)
+        {
+            // 위쪽 화살표 키를 눌러 블록 회전
+            if (GET_KEYDOWN(KEY_TYPE::UP))
+            {
+                currentBlock->Rotate();
+                if (false == CheckClampRotat(currentBlock))
+                {
+                    currentBlock->Rotate();
+                    currentBlock->Rotate();
+                    currentBlock->Rotate();
+                }
+                else
+                {
+                    // 놓일 지점 보이기
+                    SetGhostBlock();
+                }
+            }
 
-        // 위쪽 화살표 키를 눌러 블록 회전
-        if (GET_KEYDOWN(KEY_TYPE::UP))
-        {
-            currentBlock->Rotate();
-            CheckClampRotat(currentBlock);
-        }
-
-        // 양옆 화살표 키를 눌러 블록 이동
-        if (GET_KEYDOWN(KEY_TYPE::LEFT))
-        {
-            currentBlock->MoveSide(true);
-            if (false == CheckClampLeft(currentBlock->GetBlocks()))
-                currentBlock->MoveSide(false);
-        }
-        if (GET_KEYDOWN(KEY_TYPE::RIGHT))
-        {
-            currentBlock->MoveSide(false);
-            if (false == CheckClampRight(currentBlock->GetBlocks()))
+            // 양옆 화살표 키를 눌러 블록 이동
+            if (GET_KEYDOWN(KEY_TYPE::LEFT))
+            {
                 currentBlock->MoveSide(true);
+                if (CheckClampLeft(currentBlock->GetBlocks()))
+                    currentBlock->MoveSide(false);
+
+                // 놓일 지점 보이기
+                SetGhostBlock();
+            }
+            if (GET_KEYDOWN(KEY_TYPE::RIGHT))
+            {
+                currentBlock->MoveSide(false);
+                if (CheckClampRight(currentBlock->GetBlocks()))
+                    currentBlock->MoveSide(true);
+
+                // 놓일 지점 보이기
+                SetGhostBlock();
+            }
+            
+        }
+
+        if (GET_KEYDOWN(KEY_TYPE::SPACE))
+        {
+            isSkill = true;
+            currentMoveDownDelay = 0;
         }
 
         // Block Down
-        if (moveDownTimer >= moveDownInterval)
+        if (moveDownTimer >= currentMoveDownDelay)
         {
-            currentBlock->MoveDown();
-            moveDownTimer = 0;
-
             if (CheckFloor(currentBlock->GetBlocks()))
             {
+                currentMoveDownDelay = moveDownDelay;
+
                 // 1. 블럭 쌓고
                 BuildBlock(currentBlock);
-                // 2. 새로운 블럭 생성
+                isSkill = false;
+                // 2. 줄 찼는지 검사
+                ClearFullRows();
+                // 3. 새로운 블럭 생성
                 currentBlock = nullptr;
                 CreateBlock();
             }
+
+            currentBlock->MoveDown();
+            moveDownTimer = 0;
         }
         else
             moveDownTimer++;
@@ -114,7 +145,7 @@ void Board::BuildBlock(Block_Parent* blockParent)
 
 void Board::ClearFullRows() 
 {
-    for (int row = 0; row < boardHeight; ++row) 
+    for (int row = 0; row < boardHeight; ++row)
     {
         if (IsRowFull(row)) 
         {
@@ -128,20 +159,18 @@ bool Board::IsRowFull(int row) const
 {
     for (int col = 0; col < boardWidth; ++col) 
     {
-        if (boardState[row][col] == nullptr) 
-        {
-            return false; // 빈 칸이 있으면 가득 차지 않음
-        }
+        if (boardVec[row][col] == nullptr)
+            return false;
     }
-    return true; // 모든 칸이 차 있음
+    return true;
 }
 
 void Board::RemoveRow(int row)
 {
     for (int col = 0; col < boardWidth; ++col) 
     {
-        delete boardState[row][col]; // 블록 객체 삭제
-        boardState[row][col] = nullptr;
+        GET_SINGLE(EventManager)->DeleteObject(boardVec[row][col]);
+        boardVec[row][col] = nullptr;
     }
 }
 
@@ -151,26 +180,25 @@ void Board::MoveBlocksDown(int row)
     {
         for (int col = 0; col < boardWidth; ++col) 
         {
-            boardState[r][col] = boardState[r - 1][col];
-            if (boardState[r][col]) 
+            boardVec[r][col] = boardVec[r - 1][col];
+            if (boardVec[r][col])
             {
-                Vec2 pos = boardState[r][col]->GetPos();
+                Vec2 pos = boardVec[r][col]->GetPos();
                 pos.y += BLOCK_SIZE; // 한 칸 아래로 이동
-                boardState[r][col]->SetPos(pos);
+                boardVec[r][col]->SetPos(pos);
             }
         }
     }
 
     // 맨 윗줄 초기화
-    for (int col = 0; col < boardWidth; ++col) 
-        boardState[0][col] = nullptr;
+    for (int col = 0; col < boardWidth; ++col)
+        boardVec[0][col] = nullptr;
 }
 
 #pragma region ClampCheck
 
 bool Board::CheckFloor(const std::vector<Block*>& blocks) const
 {
-    Vec2 boardOrigin = GetBoardOrigin();
     float boardFloor = GetPos().y + GetSize().y / 2; // 보드의 시작점(Screen Space 기준)
 
     for (const Block* block : blocks)
@@ -178,35 +206,35 @@ bool Board::CheckFloor(const std::vector<Block*>& blocks) const
         if ((block->GetPos().y + BLOCK_SIZE / 2) == boardFloor)
             return true;
 
-        // 보드 기준으로 계산한 위치
-        float x = block->GetPos().x - boardOrigin.x;
-        float y = block->GetPos().y - boardOrigin.y;
-
-        int row = y / BLOCK_SIZE + 1; // 한칸 아래 검사
-        int col = x / BLOCK_SIZE;
-
-        if (row >= 0 && row < boardHeight && col >= 0 && col < boardWidth)
-        {
-            if (boardVec[row][col] != nullptr)
-            {
-                cout << "True" << endl;
-                return true;
-            }
-        }
+        if (ThereIsBlock(block, 0, 1)) return true;
     }
     return false;
 }
 
-void Board::CheckClampRotat(Block_Parent* block)
+bool Board::CheckClampRotat(Block_Parent* block)
 {
-    if (false == CheckClampLeft(block->GetBlocks()))
+    for (const Block* block : block->GetBlocks())
     {
-        currentBlock->MoveSide(false);
+        float x = block->GetPos().x;
+        if (x - BLOCK_SIZE / 2 < GetBoardOrigin().x || 
+            ThereIsBlock(block))
+        {
+            if (ThereIsBlock(block, 1))
+                return false; // 도는거 취소
+            else
+                currentBlock->MoveSide(false);
+        }
+        else if (x + BLOCK_SIZE / 2 > GetBoardOrigin().x + boardWidth * BLOCK_SIZE ||
+            ThereIsBlock(block))
+        {
+            if (ThereIsBlock(block, -1))
+                return false; // 도는거 취소
+            else
+                currentBlock->MoveSide(true);
+        }
     }
-    if (false == CheckClampRight(block->GetBlocks()))
-    {
-        currentBlock->MoveSide(true);
-    }
+
+    return true;
 }
 
 bool Board::CheckClampLeft(const std::vector<Block*>& blocks) const
@@ -217,9 +245,12 @@ bool Board::CheckClampLeft(const std::vector<Block*>& blocks) const
     {
         float x = block->GetPos().x;
         if (x - BLOCK_SIZE / 2 < boardLeftOrigin)
-            return false;
+            return true;
+
+        if (ThereIsBlock(block))
+            return true;
     }
-    return true;
+    return false;
 }
 
 bool Board::CheckClampRight(const std::vector<Block*>& blocks) const
@@ -230,14 +261,33 @@ bool Board::CheckClampRight(const std::vector<Block*>& blocks) const
     {
         float x = block->GetPos().x;
         if (x + BLOCK_SIZE / 2 > boardRightOrigin)
-            return false;
+            return true;
+
+        if (ThereIsBlock(block)) return true;
     }
-    return true;
+    return false;
 }
 
 #pragma endregion
 
-// 완료
+bool Board::ThereIsBlock(const Block* block, int X, int Y) const
+{
+    Vec2 boardOrigin = GetBoardOrigin();
+    // 보드 기준으로 계산한 위치
+    float x = block->GetPos().x - boardOrigin.x;
+    float y = block->GetPos().y - boardOrigin.y;
+
+    int row = y / BLOCK_SIZE + Y;
+    int col = x / BLOCK_SIZE + X;  // 한칸 오른쪽 검사
+
+    if (row >= 0 && row < boardHeight && col >= 0 && col < boardWidth)
+    {
+        if (boardVec[row][col] != nullptr)
+            return true;
+    }
+    return false;
+}
+
 Vec2 Board::GetBoardOrigin() const
 {
     return Vec2(
@@ -246,7 +296,6 @@ Vec2 Board::GetBoardOrigin() const
     );
 }
 
-// 완료
 void Board::CreateBlock()
 {
     if (nextBlock == BLOCK_TYPE::NONE)
@@ -293,35 +342,30 @@ void Board::CreateBlock()
     nextBlock = (BLOCK_TYPE)(rand() % 7);
 
     block->SetBlockPosition();
+
+    // 고스트 블럭 세팅
+    ghostBlock->SyncWithCurrentBlock(currentBlock);
+    SetGhostBlock();
 }
 
-//bool Board::CheckCollision(Block_Parent* blockParent)
-//{
-//    const auto& blocks = blockParent->GetBlocks();
-//
-//    float boardEndY = GetPos().y + (GetSize().y / 2); // 보드 아래 y값
-//    for (Block* block : blocks) 
-//    {
-//        // 1. 바닥에 도착 했는가?
-//        Vec2 pos = block->GetPos();
-//        if (pos.y + (block->GetSize().y / 2) >= boardEndY)
-//            return true;
-//
-//        // 2. 밑에 저장된 블럭이 있는가?
-//        // 보드 기준으로 계산한 위치
-//        float x = (SCREEN_WIDTH / 2) - (GetSize().x / 2);
-//        float y = (SCREEN_HEIGHT / 2) - (GetSize().y / 2);
-//        Vec2 newPos = { pos.x - x, pos.y - y };
-//
-//        // 검사할 위치
-//        int row = ((newPos.x + (block->GetSize().x / 2)) / 20) + 1;
-//        int col = ((newPos.y + (block->GetSize().y / 2)) / 20) + 1;
-//        if (row >= 0 && row < boardWidth && col >= 0 && col < boardHeight)
-//        {
-//            if (board[row][col] != nullptr)
-//                return true;
-//        }
-//    }
-//
-//    return false;
-//}
+void Board::SetGhostBlock()
+{
+    if (currentBlock == nullptr) return;
+
+    // 고스트 블록의 초기 위치를 currentBlock과 동일하게 설정
+    ghostBlock->SyncWithCurrentBlock(currentBlock);
+
+    // 고스트 블록을 아래로 이동하면서 충돌 여부 확인
+    while (!CheckFloor(ghostBlock->GetBlocks()))
+    {
+        ghostBlock->SetPos({ ghostBlock->GetPos().x,
+            ghostBlock->GetPos().y + BLOCK_SIZE });
+        for (Block* block : ghostBlock->GetBlocks())
+        {
+            Vec2 pos = block->GetPos();
+            pos.y += BLOCK_SIZE;
+            block->SetPos(pos);
+        }
+    }
+
+}

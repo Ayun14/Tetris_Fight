@@ -35,8 +35,11 @@
     <Filter Include="Engine\07. Module">
       <UniqueIdentifier>{ec499769-3097-4d06-8abb-b25ff4a1a933}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\03. Object\Block">
+    <Filter Include="Engine\03. Object\BlockBase">
       <UniqueIdentifier>{bddfaf40-cff2-48cc-b87d-e7ad572bd8ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\03. Object\BlockBase\Blocks">
+      <UniqueIdentifier>{983139c4-5b64-4779-9ba0-2d215f70a577}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -131,34 +134,37 @@
       <Filter>Engine\06. Component</Filter>
     </ClInclude>
     <ClInclude Include="Block.h">
-      <Filter>Engine\03. Object\Block</Filter>
-    </ClInclude>
-    <ClInclude Include="Block_I.h">
-      <Filter>Engine\03. Object\Block</Filter>
-    </ClInclude>
-    <ClInclude Include="Block_J.h">
-      <Filter>Engine\03. Object\Block</Filter>
-    </ClInclude>
-    <ClInclude Include="Block_L.h">
-      <Filter>Engine\03. Object\Block</Filter>
-    </ClInclude>
-    <ClInclude Include="Block_O.h">
-      <Filter>Engine\03. Object\Block</Filter>
-    </ClInclude>
-    <ClInclude Include="Block_S.h">
-      <Filter>Engine\03. Object\Block</Filter>
-    </ClInclude>
-    <ClInclude Include="Block_T.h">
-      <Filter>Engine\03. Object\Block</Filter>
-    </ClInclude>
-    <ClInclude Include="Block_Z.h">
-      <Filter>Engine\03. Object\Block</Filter>
+      <Filter>Engine\03. Object\BlockBase</Filter>
     </ClInclude>
     <ClInclude Include="Board.h">
       <Filter>Engine\03. Object</Filter>
     </ClInclude>
     <ClInclude Include="Block_Parent.h">
-      <Filter>Engine\03. Object\Block</Filter>
+      <Filter>Engine\03. Object\BlockBase</Filter>
+    </ClInclude>
+    <ClInclude Include="Block_I.h">
+      <Filter>Engine\03. Object\BlockBase\Blocks</Filter>
+    </ClInclude>
+    <ClInclude Include="Block_J.h">
+      <Filter>Engine\03. Object\BlockBase\Blocks</Filter>
+    </ClInclude>
+    <ClInclude Include="Block_L.h">
+      <Filter>Engine\03. Object\BlockBase\Blocks</Filter>
+    </ClInclude>
+    <ClInclude Include="Block_O.h">
+      <Filter>Engine\03. Object\BlockBase\Blocks</Filter>
+    </ClInclude>
+    <ClInclude Include="Block_S.h">
+      <Filter>Engine\03. Object\BlockBase\Blocks</Filter>
+    </ClInclude>
+    <ClInclude Include="Block_T.h">
+      <Filter>Engine\03. Object\BlockBase\Blocks</Filter>
+    </ClInclude>
+    <ClInclude Include="Block_Z.h">
+      <Filter>Engine\03. Object\BlockBase\Blocks</Filter>
+    </ClInclude>
+    <ClInclude Include="Block_Ghost.h">
+      <Filter>Engine\03. Object\BlockBase\Blocks</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -245,34 +251,37 @@
       <Filter>Engine\06. Component</Filter>
     </ClCompile>
     <ClCompile Include="Block.cpp">
-      <Filter>Engine\03. Object\Block</Filter>
-    </ClCompile>
-    <ClCompile Include="Block_I.cpp">
-      <Filter>Engine\03. Object\Block</Filter>
-    </ClCompile>
-    <ClCompile Include="Block_J.cpp">
-      <Filter>Engine\03. Object\Block</Filter>
-    </ClCompile>
-    <ClCompile Include="Block_L.cpp">
-      <Filter>Engine\03. Object\Block</Filter>
-    </ClCompile>
-    <ClCompile Include="Block_O.cpp">
-      <Filter>Engine\03. Object\Block</Filter>
-    </ClCompile>
-    <ClCompile Include="Block_S.cpp">
-      <Filter>Engine\03. Object\Block</Filter>
-    </ClCompile>
-    <ClCompile Include="Block_T.cpp">
-      <Filter>Engine\03. Object\Block</Filter>
-    </ClCompile>
-    <ClCompile Include="Block_Z.cpp">
-      <Filter>Engine\03. Object\Block</Filter>
+      <Filter>Engine\03. Object\BlockBase</Filter>
     </ClCompile>
     <ClCompile Include="Board.cpp">
       <Filter>Engine\03. Object</Filter>
     </ClCompile>
     <ClCompile Include="Block_Parent.cpp">
-      <Filter>Engine\03. Object\Block</Filter>
+      <Filter>Engine\03. Object\BlockBase</Filter>
+    </ClCompile>
+    <ClCompile Include="Block_I.cpp">
+      <Filter>Engine\03. Object\BlockBase\Blocks</Filter>
+    </ClCompile>
+    <ClCompile Include="Block_J.cpp">
+      <Filter>Engine\03. Object\BlockBase\Blocks</Filter>
+    </ClCompile>
+    <ClCompile Include="Block_L.cpp">
+      <Filter>Engine\03. Object\BlockBase\Blocks</Filter>
+    </ClCompile>
+    <ClCompile Include="Block_O.cpp">
+      <Filter>Engine\03. Object\BlockBase\Blocks</Filter>
+    </ClCompile>
+    <ClCompile Include="Block_S.cpp">
+      <Filter>Engine\03. Object\BlockBase\Blocks</Filter>
+    </ClCompile>
+    <ClCompile Include="Block_T.cpp">
+      <Filter>Engine\03. Object\BlockBase\Blocks</Filter>
+    </ClCompile>
+    <ClCompile Include="Block_Z.cpp">
+      <Filter>Engine\03. Object\BlockBase\Blocks</Filter>
+    </ClCompile>
+    <ClCompile Include="Block_Ghost.cpp">
+      <Filter>Engine\03. Object\BlockBase\Blocks</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
