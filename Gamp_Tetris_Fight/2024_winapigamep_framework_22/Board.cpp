@@ -24,8 +24,8 @@ Board::Board() :
     m_pTex = GET_SINGLE(ResourceManager)->TextureLoad(L"Board", L"Texture\\gamp-background.bmp");
     boardVec.resize(boardHeight, std::vector<Block*>(boardWidth));
     
-    ghostBlock = new Block_Ghost();
-    GET_SINGLE(SceneManager)->GetCurrentScene()->AddObject(ghostBlock, LAYER::BLOCK);
+    //ghostBlock = new Block_Ghost();
+    //GET_SINGLE(SceneManager)->GetCurrentScene()->AddObject(ghostBlock, LAYER::BLOCK);
 }
 
 Board::~Board() {}
@@ -46,6 +46,8 @@ void Board::Render(HDC _hdc)
 
 void Board::Update()
 {
+    if (isGameOver) return;
+
 #pragma region BlockMove
     if (currentBlock)
     {
@@ -64,7 +66,7 @@ void Board::Update()
                 else
                 {
                     // 놓일 지점 보이기
-                    SetGhostBlock();
+                    //SetGhostBlock();
                 }
             }
 
@@ -76,7 +78,7 @@ void Board::Update()
                     currentBlock->MoveSide(false);
 
                 // 놓일 지점 보이기
-                SetGhostBlock();
+                //SetGhostBlock();
             }
             if (GET_KEYDOWN(KEY_TYPE::RIGHT))
             {
@@ -85,7 +87,7 @@ void Board::Update()
                     currentBlock->MoveSide(true);
 
                 // 놓일 지점 보이기
-                SetGhostBlock();
+                //SetGhostBlock();
             }
             
         }
@@ -105,6 +107,7 @@ void Board::Update()
 
                 // 1. 블럭 쌓고
                 BuildBlock(currentBlock);
+                if (isGameOver) return;
                 isSkill = false;
                 // 2. 줄 찼는지 검사
                 ClearFullRows();
@@ -134,6 +137,12 @@ void Board::BuildBlock(Block_Parent* blockParent)
 
         int row = y / BLOCK_SIZE;
         int col = x / BLOCK_SIZE;
+
+        if (row == boardHeight - endRow)
+        {
+            isGameOver = true;
+            return;
+        }
 
         if (row >= 0 && row < boardHeight && col >= 0 && col < boardWidth)
         {
@@ -344,8 +353,8 @@ void Board::CreateBlock()
     block->SetBlockPosition();
 
     // 고스트 블럭 세팅
-    ghostBlock->SyncWithCurrentBlock(currentBlock);
-    SetGhostBlock();
+    //ghostBlock->SyncWithCurrentBlock(currentBlock);
+    //SetGhostBlock();
 }
 
 void Board::SetGhostBlock()

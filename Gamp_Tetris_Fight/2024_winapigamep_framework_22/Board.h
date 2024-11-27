@@ -47,4 +47,8 @@ private:
     Block_Parent* currentBlock = nullptr; // 현재 움직이는 블록
     Block_Ghost* ghostBlock = nullptr; // 밑에 놓여질 곳이 보이는 블록
     BLOCK_TYPE nextBlock; // 다음 블록
+
+    // GameOver
+    bool isGameOver = false;
+    int endRow = 18;
 };
