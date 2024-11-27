@@ -23,7 +23,6 @@ Board::Board() :
 {
     m_pTex = GET_SINGLE(ResourceManager)->TextureLoad(L"Board", L"Texture\\gamp-background.bmp");
     boardVec.resize(boardHeight, std::vector<Block*>(boardWidth));
-    
     //ghostBlock = new Block_Ghost();
     //GET_SINGLE(SceneManager)->GetCurrentScene()->AddObject(ghostBlock, LAYER::BLOCK);
 }
@@ -32,6 +31,7 @@ Board::~Board() {}
 
 void Board::Render(HDC _hdc)
 {
+    // Board
     Vec2 vPos = GetPos();
     Vec2 vSize = GetSize();
     int width = m_pTex->GetWidth();
@@ -41,6 +41,20 @@ void Board::Render(HDC _hdc)
         , (int)(vPos.y - height / 2)
         , width, height,
         m_pTex->GetTexDC()
+        , 0, 0, width, height, RGB(255, 0, 255));
+
+    // NextBlock
+    Vec2 boardOrigin = GetBoardOrigin();
+    vPos = { boardOrigin.x + boardWidth * BLOCK_SIZE + 100.f,
+    boardOrigin .y + 80.f };
+    vSize = { 120.f,80.f };
+    width = nextBlockTex->GetWidth();
+    height = nextBlockTex->GetHeight();
+    ::TransparentBlt(_hdc
+        , (int)(vPos.x - width / 2)
+        , (int)(vPos.y - height / 2)
+        , width, height,
+        nextBlockTex->GetTexDC()
         , 0, 0, width, height, RGB(255, 0, 255));
 }
 
@@ -340,7 +354,7 @@ void Board::CreateBlock()
     float boardStartY = GetPos().y - (boardHeight * BLOCK_SIZE) / 2;
 
     // 블록을 보드의 -1번째 줄에 배치
-    float blockStartX = GetPos().x;
+    float blockStartX = GetPos().x + BLOCK_SIZE / 2;
     float blockStartY = boardStartY + BLOCK_SIZE * 2;
 
     block->SetPos({ blockStartX - BLOCK_SIZE / 2, blockStartY - BLOCK_SIZE / 2 });
@@ -349,7 +363,44 @@ void Board::CreateBlock()
 
     // 다음 블럭 지정
     nextBlock = (BLOCK_TYPE)(rand() % 7);
-
+    switch (nextBlock)
+    {
+    case BLOCK_TYPE::BLOCK_I:
+        cout << "I" << endl;
+        nextBlockTex = GET_SINGLE(ResourceManager)->
+            TextureLoad(L"NextBlockI", L"Texture\\Complete version\\Skyblue.bmp");
+        break;
+    case BLOCK_TYPE::BLOCK_J:
+        cout << "J" << endl;
+        nextBlockTex = GET_SINGLE(ResourceManager)->
+            TextureLoad(L"NextBlockJ", L"Texture\\Complete version\\Bule.bmp");
+        break;
+    case BLOCK_TYPE::BLOCK_L:
+        cout << "L" << endl;
+        nextBlockTex = GET_SINGLE(ResourceManager)->
+            TextureLoad(L"NextBlockL", L"Texture\\Complete version\\Orange.bmp");
+        break;
+    case BLOCK_TYPE::BLOCK_O:
+        cout << "O" << endl;
+        nextBlockTex = GET_SINGLE(ResourceManager)->
+            TextureLoad(L"NextBlockO", L"Texture\\Complete version\\Yellow.bmp");
+        break;
+    case BLOCK_TYPE::BLOCK_S:
+        cout << "S" << endl;
+        nextBlockTex = GET_SINGLE(ResourceManager)->
+            TextureLoad(L"NextBlockS", L"Texture\\Complete version\\Red.bmp");
+        break;
+    case BLOCK_TYPE::BLOCK_Z:
+        cout << "Z" << endl;
+        nextBlockTex = GET_SINGLE(ResourceManager)->
+            TextureLoad(L"NextBlockZ", L"Texture\\Complete version\\Green.bmp");
+        break;
+    case BLOCK_TYPE::BLOCK_T:
+        cout << "T" << endl;
+        nextBlockTex = GET_SINGLE(ResourceManager)->
+            TextureLoad(L"NextBlockT", L"Texture\\Complete version\\Purple.bmp");
+        break;
+    }
     block->SetBlockPosition();
 
     // 고스트 블럭 세팅

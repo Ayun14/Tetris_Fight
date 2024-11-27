@@ -12,7 +12,7 @@
 void GameScene::Init()
 {
 	Board* board = new Board;
-	board->SetPos({ SCREEN_WIDTH / 2,
+	board->SetPos({ SCREEN_WIDTH / 2 + 100,
 			SCREEN_HEIGHT /2});
 	board->SetSize({ 400.f, 800.f });
 	AddObject(board, LAYER::BACKGROUND);
