@@ -32,7 +32,7 @@ public:
 private:
     // Block Spawn
     int blockNum;
-    wstring texturePath = L"Texture\\PinkBlock.bmp";
+    wstring texturePath = L"Texture\\RedBlock.bmp";
 
     vector<Block*> blockVec;
     Vec2 m_vDir;

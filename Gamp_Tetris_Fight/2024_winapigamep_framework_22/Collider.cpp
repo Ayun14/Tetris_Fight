@@ -25,15 +25,15 @@ void Collider::LateUpdate()
 
 void Collider::Render(HDC _hdc)
 {
-	PEN_TYPE ePen = PEN_TYPE::GREEN;
-	if (m_showDebug)
-		ePen = PEN_TYPE::RED;
-	GDISelector pen(_hdc, ePen);
-	GDISelector brush(_hdc, BRUSH_TYPE::HOLLOW);
-	Vec2 camerapos = GET_SINGLE(Camera)->GetCameraPos();
+	//PEN_TYPE ePen = PEN_TYPE::GREEN;
+	//if (m_showDebug)
+	//	ePen = PEN_TYPE::RED;
+	//GDISelector pen(_hdc, ePen);
+	//GDISelector brush(_hdc, BRUSH_TYPE::HOLLOW);
+	//Vec2 camerapos = GET_SINGLE(Camera)->GetCameraPos();
 
-	RECT_RENDER(_hdc, m_vLatePos.x - ((int)camerapos.x), m_vLatePos.y - ((int)camerapos.y),
-		m_vSize.x, m_vSize.y);
+	//RECT_RENDER(_hdc, m_vLatePos.x - ((int)camerapos.x), m_vLatePos.y - ((int)camerapos.y),
+	//	m_vSize.x, m_vSize.y);
 }
 
 void Collider::EnterCollision(Collider* _other)
