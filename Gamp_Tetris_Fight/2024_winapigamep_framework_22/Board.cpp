@@ -354,10 +354,10 @@ void Board::CreateBlock()
     float boardStartY = GetPos().y - (boardHeight * BLOCK_SIZE) / 2;
 
     // 블록을 보드의 -1번째 줄에 배치
-    float blockStartX = GetPos().x + BLOCK_SIZE / 2;
+    float blockStartX = GetPos().x - BLOCK_SIZE * 2;
     float blockStartY = boardStartY + BLOCK_SIZE * 2;
 
-    block->SetPos({ blockStartX - BLOCK_SIZE / 2, blockStartY - BLOCK_SIZE / 2 });
+    block->SetPos({ blockStartX, blockStartY - BLOCK_SIZE / 2 });
     currentBlock = block;
     GET_SINGLE(SceneManager)->GetCurrentScene()->AddObject(block, LAYER::BLOCK);
 
