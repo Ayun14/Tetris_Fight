@@ -11,6 +11,7 @@
 #include "Animator.h"
 //#include "Animation.h"
 //#include "CameraComponent.h"
+#include "Striker.h"
 
 Player::Player()
 	: m_pTex(nullptr), m_leftMoveKey(KEY_TYPE::A), m_rightMoveKey(KEY_TYPE::D)
@@ -26,8 +27,7 @@ Player::Player()
 	AddComponent<Animator>();
 	GetComponent<Animator>()->CreateAnimation(L"JiwooFront", m_pTex, Vec2(0.f, 150.f), Vec2(50.f, 50.f), Vec2(50.f, 0.f), 5, 0.1f);
 	GetComponent<Animator>()->PlayAnimation(L"JiwooFront", true);
-	
-
+	GET_SINGLE(Striker)->PlusSkillCount();
 }
 Player::~Player()
 {

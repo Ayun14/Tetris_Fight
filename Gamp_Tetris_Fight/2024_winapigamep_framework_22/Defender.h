@@ -7,5 +7,7 @@ public:
 protected:
 	bool CanUseSkill();
 	void UseSkill();
+private:
+	int m_jumpCount = 4;
 };
 
